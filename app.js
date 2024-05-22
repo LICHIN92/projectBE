@@ -1,11 +1,19 @@
 import express from 'express'
 import 'dotenv/config'
+import connectDB from './config/db.js';
+import userRoutes from './routes/userRoutes.js';
+import cors from 'cors'
+import adminRouter from './routes/adminRouter.js';
 
 
-const port=process.env.port
-console.log(port);
+connectDB()
 const  app=express()
+app.use(cors())
+app.use(express.json());
 
-app.listen(port,()=>{
-    console.log(`running at :${port}`);
+app.use('/', userRoutes);
+app.use('/admin', adminRouter);
+
+app.listen(process.env.port,()=>{
+    console.log(`Server is running on http://localhost:${process.env.port}`);
 })

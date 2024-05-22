@@ -5,18 +5,31 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    lastName:{
-        type:String,
-        required:true
+    lastName: {
+        type: String,
+        required: true
     },
-    mobile:{
-        type:Number,
-        required:true
+    mobile: {
+        type: Number,
+        required: true
     },
-    email:{
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role:{
         type:String,
-        required:true
+        default:'user'
     }
-})
-const USER=mongoose.model('user',UserSchema)
+},
+    {
+        timestamps: true
+
+    })
+const USER = mongoose.model('user', UserSchema)
 export default USER
