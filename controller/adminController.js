@@ -1,90 +1,59 @@
 import Court from "../Model/courtModel.js";
 import { cloudinaryInstance } from "../config/cloudinary.js";
 
-const createCourt =async (req, res) => {
+const createCourt = async (req, res) => {
+    console.log('createCourt');
+    console.log('createCourt');
+
     console.log(req.body);
     console.log('createCourt');
-    const { name, location, addressLine1, addressLine2, addressLine3, contactNumber, landMark } = req.body
-    console.log(req.file);
+    console.log('createCourt');
+
+    const { CourtName, Location, AddressLine1, AddressLine2, AddressLine3, ContactNumber, CourtType, Landmark, AvailableSports,Price } = req.body
+    console.log(req.files);
     try {
-        if (!req.file) {
+        if (!req.files) {
             return res.status(400).json({ success: false, message: "No file uploaded" });
         }
 
-        const result = await cloudinaryInstance.uploader.upload(req.file.path);
+        // const result = await cloudinaryInstance.uploader.upload(req.files.path);
+        const result = req.files.map(file =>
+            cloudinaryInstance.uploader.upload(file.path)
+        );
         console.log('result', result);
-        const imageUrl = result.url;
-         console.log(imageUrl);
-        const body = req.body;
-        console.log(body, "body");
 
-        
+        const uploadResults = await Promise.all(result);
+        console.log('uploadResults', uploadResults);
+        const imageUrls = uploadResults.map(result => result.url);
+        // const imageUrls = result.map(results => results.url);
+        console.log('imageUrls', imageUrls);
         const courtData = {
-            name,
-            location,
-            addressLine1,
-            addressLine2,
-            addressLine3,
-            contactNumber,
-            landMark,
-            image: imageUrl 
+            CourtName,
+            Location,
+            AddressLine1,
+            AddressLine2,
+            AddressLine3,
+            CourtType,
+            ContactNumber,
+            Landmark,
+            Price,
+            AvailableSports,
+            pics: imageUrls
         };
-
+       const item= await Court.find({CourtName:CourtName,Location:Location})
+       if(item.length!==0){
+        return res.status(400).json('this court is exist')
+       }
+       console.log(item);
         const newCourt = new Court(courtData);
+        await newCourt.save()
+       res.status(200).json({data:"succeessfully Added"})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: error.message });
 
-   } catch (error) {
-     console.log(error);
-   }
-    
- }
+    }
 
+}
 export { createCourt }
 
-
-// import Court from "../Model/courtModel.js";
-// import { cloudinaryInstance } from "../config/cloudinary.js";
-
-// const createCourt = async (req, res) => {
-//     console.log('createCourt');
-//     const { name, location, addressLine1, addressLine2, addressLine3, contactNumber, landMark } = req.body;
-//     console.log(req.files);
-    
-//     try {
-//         if (!req.files || req.files.length === 0) {
-//             return res.status(400).json({ success: false, message: "No file uploaded" });
-//         }
-
-//         // Use Promise.all to wait for multiple file uploads if needed
-//         const uploadPromises = req.files.map(file => 
-//             cloudinaryInstance.uploader.upload(file.path)
-//         );
-//     console.log(uploadPromises)
-//         const uploadResults = await Promise.all(uploadPromises);
-
-//         const imageUrls = uploadResults.map(result => result.url);
-
-
-//         // Here you can now create the Court object and save it to the database
-//         const courtData = {
-//             name,
-//             location,
-//             addressLine1,
-//             addressLine2,
-//             addressLine3,
-//             contactNumber,
-//             landMark,
-//             images: imageUrls // assuming you want to store the image URLs
-//         };
-
-//         const newCourt = new Court(courtData);
-//         await newCourt.save();
-
-//         // Send response after successful save
-//         res.status(200).json({ success: true, data: newCourt });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ success: false, message: "Server Error" });
-//     }
-// };
-
-// export { createCourt };

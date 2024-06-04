@@ -5,6 +5,7 @@ import jsonwebtoken from "jsonwebtoken";
 const signin = async (req, res) => {
     console.log('signin');
     const { email, password } = req.body
+    console.log(req.body);
     try {
         const userData = await USER.findOne({ email })
         console.log(userData);
@@ -13,21 +14,29 @@ const signin = async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, userData.password)
         if (!isMatch) {
-            return res.status(400).json({ message: "Invalid email or password" });
+            console.log('password');
+            return res.status(400).json("Invalid password");
         }
         console.log(isMatch);
-        const token = jsonwebtoken.sign({ id: userData._id, email: userData.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        const option={
+            expiresIn:'1h',
+            algorithm:'HS256'
+        }
+        // const token = jsonwebtoken.sign({ id: userData._id, email: userData.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        userData.password=undefined
+        const token=jsonwebtoken.sign({...userData},process.env.JWT_SECRET,option)
         console.log(token);
-        res.status(200).json({ message: "Signin successful", token });
+        res.status(200).json({ data: "Signin successful", token});
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({ data: "Server error", error });
     }
 
 };
 
 
 const signup = async (req, res) => {
+    console.log('signup');
     const { firstName, lastName, mobile, email, password } = req.body;
     console.log(req.body);
 
@@ -35,7 +44,7 @@ const signup = async (req, res) => {
 
         const mailExist = await USER.findOne({ email: email });
         if (mailExist) {
-            console.log(mailExist);
+            console.log(`mailExist ${mailExist}`);
             return res.status(400).json("Email already exists");
         }
         const saltRounds = 10;
