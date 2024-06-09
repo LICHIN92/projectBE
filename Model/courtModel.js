@@ -43,9 +43,13 @@ const courtSchema = mongoose.Schema({
     Price:{
         type:Number,
         required:true
+    },
+    Createdby: {
+        type: mongoose.Types.ObjectId,
+        ref: 'users'
     }
 },
-    { timestamp: true }
+    { timestamps: true }
 )
 
 const Court = mongoose.model("Court", courtSchema)

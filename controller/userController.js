@@ -1,6 +1,8 @@
 import USER from "../Model/usermodel.js";
 import bcrypt from 'bcrypt';
 import jsonwebtoken from "jsonwebtoken";
+import dotenv from 'dotenv'
+dotenv.config()
 
 const signin = async (req, res) => {
     console.log('signin');

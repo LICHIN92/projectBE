@@ -9,9 +9,14 @@ const createCourt = async (req, res) => {
     console.log('createCourt');
     console.log('createCourt');
 
-    const { CourtName, Location, AddressLine1, AddressLine2, AddressLine3, ContactNumber, CourtType, Landmark, AvailableSports,Price } = req.body
+    const { CourtName, Location, AddressLine1, AddressLine2, AddressLine3, ContactNumber, CourtType, Landmark,Amenities, AvailableSports, Price } = req.body
     console.log(req.files);
     try {
+        const item = await Court.find({ CourtName: CourtName, Location: Location })
+        if (item.length !== 0) {
+            return res.status(400).json('this court is exist')
+        }
+
         if (!req.files) {
             return res.status(400).json({ success: false, message: "No file uploaded" });
         }
@@ -35,19 +40,16 @@ const createCourt = async (req, res) => {
             AddressLine3,
             CourtType,
             ContactNumber,
+            Amenities,
             Landmark,
             Price,
             AvailableSports,
             pics: imageUrls
         };
-       const item= await Court.find({CourtName:CourtName,Location:Location})
-       if(item.length!==0){
-        return res.status(400).json('this court is exist')
-       }
-       console.log(item);
+       
         const newCourt = new Court(courtData);
         await newCourt.save()
-       res.status(200).json({data:"succeessfully Added"})
+        res.status(200).json({ data: "succeessfully Added" })
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: error.message });

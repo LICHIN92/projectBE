@@ -1,7 +1,9 @@
 import express from 'express'
-import { getcourtData } from '../controller/courtController.js'
+import { deleteCourt, getSingleCourt, getcourtData } from '../controller/courtController.js'
 const courtRouter=express.Router()
 courtRouter.get('/',getcourtData)
+courtRouter.get('/singleCourt/:id',getSingleCourt)
+courtRouter.delete('/:id',deleteCourt)
 
 
 export default courtRouter
