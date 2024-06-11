@@ -6,7 +6,7 @@ const createCourt = async (req, res) => {
     console.log('createCourt');
 
     console.log(req.body);
-    console.log('createCourt');
+    console.log(req.userId);
     console.log('createCourt');
 
     const { CourtName, Location, AddressLine1, AddressLine2, AddressLine3, ContactNumber, CourtType, Landmark,Amenities, AvailableSports, Price } = req.body
@@ -44,6 +44,7 @@ const createCourt = async (req, res) => {
             Landmark,
             Price,
             AvailableSports,
+            Createdby:req.userId,
             pics: imageUrls
         };
        
