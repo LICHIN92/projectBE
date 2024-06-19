@@ -7,7 +7,7 @@ const getcourtData = async (req, res) => {
         const data = await Court.find();
         if (data.length > 0) {
             res.status(200).json(data);
-            console.log('Court data retrieved:', data);
+            // console.log('Court data retrieved:', data);
         } else {
             res.status(404).json({ message: 'No court data found' });
             console.log('No court data found');
@@ -51,43 +51,45 @@ const extractPublicId = (url) => {
 };
 
 const deleteCourt = async (req, res) => {
-    try {
-        const courtData = await Court.findById(req.params.id);
+    console.log(req.params.id);
+    console.log('delete');
+    // try {
+    //     const courtData = await Court.findById(req.params.id);
 
-        if (!courtData) {
-            return res.status(404).json({ error: 'Court not found' });
-        }
+    //     if (!courtData) {
+    //         return res.status(404).json({ error: 'Court not found' });
+    //     }
 
-        const pics = courtData.pics;
-        console.log(pics);
+    //     const pics = courtData.pics;
+    //     console.log(pics);
 
-        if (pics && pics.length > 0) {
-            const deletionResults = await Promise.all(
-                pics.map(async (file) => {
-                    const publicId = extractPublicId(file);
-                    console.log(publicId);
-                    const result = await cloudinaryInstance.uploader.destroy(publicId);
-                    if (result.result !== 'ok') {
-                        throw new Error(`Failed to delete file: ${file}`);
-                    }
-                    return result;
-                })
-            );
+    //     if (pics && pics.length > 0) {
+    //         const deletionResults = await Promise.all(
+    //             pics.map(async (file) => {
+    //                 const publicId = extractPublicId(file);
+    //                 console.log(publicId);
+    //                 const result = await cloudinaryInstance.uploader.destroy(publicId);
+    //                 if (result.result !== 'ok') {
+    //                     throw new Error(`Failed to delete file: ${file}`);
+    //                 }
+    //                 return result;
+    //             })
+    //         );
 
-            console.log('All files deleted successfully', deletionResults);
-        } else {
-            console.log('No files to delete');
-        }
+    //         console.log('All files deleted successfully', deletionResults);
+    //     } else {
+    //         console.log('No files to delete');
+    //     }
 
-        // Delete the court document from the database
-        await Court.findByIdAndDelete(req.params.id);
+    //     // Delete the court document from the database
+    //     await Court.findByIdAndDelete(req.params.id);
 
-        // Send a success response to the client
-        res.status(200).json({ message: 'Deletion process completed successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: error.message });
-    }
+    //     // Send a success response to the client
+    //     res.status(200).json({ message: 'Deletion process completed successfully' });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).json({ error: error.message });
+    // }
 };
 
 const mycourtCourts = async (req, res) => {

@@ -20,15 +20,15 @@ const signin = async (req, res) => {
             return res.status(400).json("Invalid password");
         }
         console.log(isMatch);
-        const option={
-            expiresIn:'1h',
-            algorithm:'HS256'
+        const option = {
+            expiresIn: '1h',
+            algorithm: 'HS256'
         }
         // const token = jsonwebtoken.sign({ id: userData._id, email: userData.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
-        userData.password=undefined
-        const token=jsonwebtoken.sign({...userData},process.env.JWT_SECRET,option)
+        userData.password = undefined
+        const token = jsonwebtoken.sign({ ...userData }, process.env.JWT_SECRET, option)
         console.log(token);
-        res.status(200).json({ data: "Signin successful", token});
+        res.status(200).json({ data: "Signin successful", token });
     } catch (error) {
         console.log(error);
         res.status(500).json({ data: "Server error", error });
@@ -62,5 +62,43 @@ const signup = async (req, res) => {
     }
 };
 
-export { signin, signup };
+const usercount = async (req, res) => {
+    console.log("hhhh");
+    try {
+        const users = await USER.countDocuments()
+        console.log("users", users);
+        res.status(200).json(users
+
+        )
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+const deleteAccount = async (req, res) => {
+    console.log(req.params.id);
+    const id = req.params.id;
+    try {
+        const deleteAccount = await USER.findById(id)
+        console.log(deleteAccount);
+        if (deleteAccount) {
+            return res.status(200).json('Account deleted Successfully')
+        }
+        return res.status(404).json('account not found')
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error)
+    }
+}
+const getdata=async(req,res)=>{
+    console.log(req.params.id);
+    const id = req.params.id;
+    try {
+        let userdata=await USER.findById(id)
+        console.log(userdata);
+    } catch (error) {
+        
+    }
+}
+export { signin, signup, usercount, deleteAccount,getdata };
 
