@@ -100,5 +100,26 @@ const getdata=async(req,res)=>{
         
     }
 }
-export { signin, signup, usercount, deleteAccount,getdata };
+const updatesuser=async (req,res)=>{
+    console.log(req.params);
+    console.log(req.body);
+    const id=req.params.id
+    const update=req.body
+    try {
+        const updates=await USER.findByIdAndUpdate(id,update,{new:true})
+        if(!updates){
+            console.log(updates);
+            return res.status(200).json({message:"user not found"})
+        }
+        console.log(updates);
+        updates.password=undefined
+        return res.status(200).json(updates)
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message:'server error'})
+        
+    }
+}
+export { signin, signup, usercount, deleteAccount,getdata,updatesuser };
 

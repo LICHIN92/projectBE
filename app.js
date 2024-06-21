@@ -10,8 +10,8 @@ import courtRouter from './routes/courtRouter.js';
 connectDB()
 const app = express()
 // https://turfshub.netlify.app/
-// app.use(cors({ origin: 'http://localhost:5173' }));
-app.use(cors({ origin: 'https://turfz.netlify.app/' }));
+app.use(cors({ origin: 'http://localhost:5173' }));
+// app.use(cors({ origin: 'https://turfz.netlify.app/' }));
 
 app.use(express.json());
 
