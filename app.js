@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes.js';
 import cors from 'cors'
 import adminRouter from './routes/adminRouter.js';
 import courtRouter from './routes/courtRouter.js';
+import slotRouter from './routes/slotRouter.js';
 
 
 connectDB()
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/', userRoutes);
 app.use('/admin', adminRouter);
 app.use('/court', courtRouter)
+app.use('/Slot',slotRouter)
 
 app.listen(process.env.port, () => {
   console.log(`Server is running on http://localhost:${process.env.port}`);
