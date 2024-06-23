@@ -14,6 +14,6 @@ const Schema=mongoose.Schema({
         ref:'courts'
     }
 })
-const CourtSchedule=mongoose.model("courtschedues",Schema)
+const CourtSchedule=mongoose.model("courtschedule",Schema)
 Schema.index({date:1,'slot.id':1,courtId:1},{unique:true})
 export default CourtSchedule
