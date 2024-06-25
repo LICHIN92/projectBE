@@ -45,16 +45,16 @@ const userAuth = async (req, res, next) => {
         return res.status(401).send('Authorization header is missing');
     }
     const token = authHeader.split(' ')[1]; // Bearer token
-    console.log(token);
+    // console.log(token);
     if (!token) {
         return res.status(401).json({ message: 'No token provided, authorization denied' });
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('decoded', decoded);
+        // console.log('decoded', decoded);
 
         if (decoded) {
-            console.log('decoded', decoded);
+            // console.log('decoded', decoded);
 
             req.userId = decoded._doc._id
 

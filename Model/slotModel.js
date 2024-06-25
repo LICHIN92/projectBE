@@ -12,6 +12,14 @@ const Schema=mongoose.Schema({
     courtId:{
         type:mongoose.Types.ObjectId,
         ref:'courts'
+    },
+    booked: {
+        type: Boolean,
+        default: false
+    },
+    bookedby:{
+        type:mongoose.Types.ObjectId,
+        ref:'users'
     }
 })
 const CourtSchedule=mongoose.model("courtschedule",Schema)

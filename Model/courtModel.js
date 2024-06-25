@@ -40,9 +40,12 @@ const courtSchema = mongoose.Schema({
         type: Array,
         required: true
     },
-    Price:{
-        type:Number,
-        required:true
+    Price: {
+        type: Number,
+        required: true
+    },
+    Amenities: {
+        type: Array,
     },
     Createdby: {
         type: mongoose.Types.ObjectId,

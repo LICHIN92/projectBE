@@ -9,8 +9,13 @@ const createCourt = async (req, res) => {
     console.log(req.userId);
     console.log('createCourt');
 
-    const { CourtName, Location, AddressLine1, AddressLine2, AddressLine3, ContactNumber, CourtType, Landmark,Amenities, AvailableSports, Price } = req.body
+    const { CourtName, Location, AddressLine1, AddressLine2, AddressLine3,
+         ContactNumber, CourtType, Landmark,Amenities, AvailableSports, Price } = req.body
     console.log(req.files);
+    const sportsArray = JSON.parse(AvailableSports);
+    const amenitiesArray = Amenities ? JSON.parse(Amenities) : [];
+     console.log(sportsArray);
+     console.log(amenitiesArray);
     try {
         const item = await Court.find({ CourtName: CourtName, Location: Location })
         if (item.length !== 0) {
@@ -40,10 +45,10 @@ const createCourt = async (req, res) => {
             AddressLine3,
             CourtType,
             ContactNumber,
-            Amenities,
+            Amenities:amenitiesArray,
             Landmark,
             Price,
-            AvailableSports,
+            AvailableSports:sportsArray,
             Createdby:req.userId,
             pics: imageUrls
         };
