@@ -12,10 +12,10 @@ import orderRouter from './routes/orderRouter.js';
 connectDB()
 const app = express()
 app.use(cors({
-  origin: 'https://turfhub.netlify.app',
+  origin: 'https://turfhub.netlify.app/',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   }));
-                        
+  // https://turfhub.netlify.app                  
 app.use(express.json());
 
 app.use('/', userRoutes);
