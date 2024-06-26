@@ -159,4 +159,17 @@ const verify = async (req, res) => {
     }
 };
 
-export { order, verify };
+const bookedslot=async(req,res)=>{
+    try {
+         const booking=await ORDER.find()
+         console.log(booking.length);
+         if(booking){
+            return res.status(200).json(booking.length)
+         }
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+    res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
+export { order, verify,bookedslot };
