@@ -6,7 +6,7 @@ dotenv.config()
 
 const signin = async (req, res) => {
     console.log('signin');
-    const { email, password } = req.body
+    const { email, password } = req.body 
     console.log(req.body);
     try {
         const userData = await USER.findOne({ email })
@@ -24,11 +24,17 @@ const signin = async (req, res) => {
             expiresIn: '1h',
             algorithm: 'HS256'
         }
-        // const token = jsonwebtoken.sign({ id: userData._id, email: userData.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
         userData.password = undefined
         const token = jsonwebtoken.sign({ ...userData }, process.env.JWT_SECRET, option)
         console.log(token);
+        res.cookie('token', token, {
+            httpOnly: true,
+            sameSite: 'lax',
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000
+        })
         res.status(200).json({ data: "Signin successful", token });
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ data: "Server error", error });

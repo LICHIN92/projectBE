@@ -12,13 +12,13 @@ import orderRouter from './routes/orderRouter.js';
 connectDB()
 const app = express()
 app.use(cors({
-  origin: 'https://turfhub.netlify.app',
+  origin: 'https://project-fe-caqk.vercel.app/',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   }));
 
 // app.use(cors({
 //   origin: 'http://localhost:5173',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 //   credentials: true
 // }));   
