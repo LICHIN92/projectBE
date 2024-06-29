@@ -13,23 +13,25 @@ connectDB()
 const app = express()
 app.use(cors({
   origin: 'https://project-fe-caqk.vercel.app/',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 // app.use(cors({
 //   origin: 'http://localhost:5173',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 //   credentials: true
-// }));   
+// }));
 
 app.use(express.json());
 
 app.use('/', userRoutes);
 app.use('/admin', adminRouter);
 app.use('/court', courtRouter)
-app.use('/Slot',slotRouter)
-app.use('/Order',orderRouter)
+app.use('/Slot', slotRouter)
+app.use('/Order', orderRouter)
 
 app.listen(process.env.port, () => {
   console.log(`Server is running on http://localhost:${process.env.port}`);
