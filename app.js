@@ -11,12 +11,20 @@ import orderRouter from './routes/orderRouter.js';
 
 connectDB()
 const app = express()
-app.use(cors({
-  origin: 'https://project-fe-gilt.vercel.app/',
+const corsOptions = {
+  origin: 'https://project-fe-gilt.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
+
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 // app.use(cors({
 //   origin: 'http://localhost:5173',
