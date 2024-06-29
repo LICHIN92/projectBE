@@ -12,7 +12,7 @@ import orderRouter from './routes/orderRouter.js';
 connectDB()
 const app = express()
 app.use(cors({
-  origin: 'https://project-fe-caqk-xecsrn6xu-lichin-chandrans-projects.vercel.app/',
+  origin: 'https://project-fe-gilt.vercel.app/',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
