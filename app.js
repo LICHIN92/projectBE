@@ -11,27 +11,28 @@ import orderRouter from './routes/orderRouter.js';
 
 connectDB()
 const app = express()
+
+const allowedOrigins = [
+  'https://project-fe-gilt.vercel.app',
+  'http://localhost:5173',
+  'https://turfhub.netlify.app'
+];
+
 const corsOptions = {
-  origin: 'https://project-fe-gilt.vercel.app',
+  origin: function (origin, callback) {
+    // Block requests with no origin (like mobile apps, curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 };
-
 app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// app.use(cors({
-//   origin: 'http://localhost:5173',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-//   credentials: true
-// }));
 
 app.use(express.json());
 

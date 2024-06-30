@@ -22,14 +22,15 @@ const signin = async (req, res) => {
         console.log(isMatch);
         const option = {
             expiresIn: '1h',
-            algorithm: 'HS256'
+            algorithm: 'HS256',
+            
         }
         userData.password = undefined
         const token = jsonwebtoken.sign({ ...userData }, process.env.JWT_SECRET, option)
         console.log(token);
         res.cookie('token', token, {
             httpOnly: true,
-            sameSite: 'lax',
+            sameSite: 'None',
             secure: true,
             maxAge: 24 * 60 * 60 * 1000
         })
