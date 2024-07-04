@@ -108,4 +108,20 @@ const mycourtCourts = async (req, res) => {
     }
 }
 
-export { getcourtData, getSingleCourt, deleteCourt, mycourtCourts }
+const updateCourt=async(req,res)=>{
+    console.log(req.params);
+    console.log(req.body);
+    const id=req.params.id
+  try {
+       const updated=await Court.findByIdAndUpdate(id,req.body,{new:true})
+       console.log(updated);
+       if(updated){
+        return res.status(200).json({message:'Court is modified Successfully'})
+       }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({message:'server error'})
+  }
+}
+
+export { getcourtData, getSingleCourt, deleteCourt, mycourtCourts,updateCourt }
