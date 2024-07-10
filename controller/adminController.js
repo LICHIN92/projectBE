@@ -17,7 +17,7 @@ const createCourt = async (req, res) => {
      console.log(sportsArray);
      console.log(amenitiesArray);
     try {
-        const item = await Court.find({ CourtName: CourtName, Location: Location })
+        const item = await Court.find({ CourtName: CourtName, Location: Location,Landmark:Landmark })
         if (item.length !== 0) {
             return res.status(400).json('this court is exist')
         }

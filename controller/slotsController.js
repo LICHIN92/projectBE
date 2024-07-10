@@ -44,14 +44,7 @@ const getSlotData = async (req, res) => {
    console.log(req.query);
    let currentDate = new Date(req.query.date)
    console.log(currentDate);
-   // let slotdata = await CourtSchedule.aggregate([
-   //    {
-   //       $match: {
-   //          courtId: req.query.id,
-   //          date: currentDate
-   //       }
-   //    }
-   // ]) 
+   
    try {
       let slotdata = await CourtSchedule.find({ date: currentDate, courtId: req.query.id,booked:false })
       console.log(slotdata);

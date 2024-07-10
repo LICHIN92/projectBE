@@ -155,7 +155,7 @@ const updatesuser = async (req, res) => {
         return res.status(500).json({ message: 'server error' })
 
     }
-}
+} 
 const changePassword = async (req, res) => {
     console.log('changePassword');
     console.log(req.body);

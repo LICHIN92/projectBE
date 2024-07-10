@@ -11,7 +11,7 @@ const Schema=mongoose.Schema({
     },
     courtId:{
         type:mongoose.Types.ObjectId,
-        ref:'courts'
+        ref:'Court'
     },
     booked: {
         type: Boolean,
@@ -19,7 +19,7 @@ const Schema=mongoose.Schema({
     },
     bookedBy:{
         type:mongoose.Types.ObjectId,
-        ref:'users',
+        ref:'user',
     },
     orderId:{
         type:mongoose.Types.ObjectId,

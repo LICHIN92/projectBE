@@ -3,12 +3,14 @@ import mongoose from "mongoose";
 const orderSchema = mongoose.Schema({
     courtId: {
         type: mongoose.Types.ObjectId,
-        ref: "courts",
+        ref: "Court",
         required: true
     },
     slotId: {
         type: Array,
-        required: true
+        // type:mongoose.Types.ObjectId,
+        required: true,
+        ref:"courtschedule"
     },
     totalPrice: {
         type: Number,
@@ -20,7 +22,7 @@ const orderSchema = mongoose.Schema({
     },
     bookedBy: {
         type: mongoose.Types.ObjectId,
-        ref: "users",
+        ref: "user",
         required: true
     }
 })

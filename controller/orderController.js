@@ -100,6 +100,8 @@ import Razorpay from "razorpay";
 import ORDER from "../Model/orderModel.js";
 import Crypto from 'crypto';
 import CourtSchedule from "../Model/slotModel.js";
+import Court from "../Model/courtModel.js";
+import path from "path";
 
 const order = async (req, res, next) => {
     const { amount, slotId, courtId } = req.body;
@@ -133,7 +135,7 @@ const order = async (req, res, next) => {
 
 const verify = async (req, res) => {
     console.log('verify');
-    const { orderCreationId, courtId, razorpayPaymentId, razorpaySignature, slotIds, receipt,date } = req.body;
+    const { orderCreationId, courtId, razorpayPaymentId, razorpaySignature, slotIds, receipt, date } = req.body;
     console.log(req.body);
     try {
         const shasum = Crypto.createHmac("sha256", process.env.RP_SECRET_KEY);
@@ -151,7 +153,7 @@ const verify = async (req, res) => {
             { $set: { bookedBy: req.userId, booked: true, orderId: receipt } }
         );
         console.log(updated);
-        const updateorder = await ORDER.updateOne({ _id: receipt }, { $set: { bookedBy: req.userId, courtId:courtId, createdOn:new Date(date)} })
+        const updateorder = await ORDER.updateOne({ _id: receipt }, { $set: { bookedBy: req.userId, courtId: courtId, createdOn: new Date(date) } })
         return res.status(200).json({ msg: "Transaction verified and slots booked successfully!" });
     } catch (error) {
         console.error('Error in verification:', error);
@@ -159,17 +161,36 @@ const verify = async (req, res) => {
     }
 };
 
-const bookedslot=async(req,res)=>{
+const bookedslot = async (req, res) => {
     try {
-         const booking=await ORDER.find()
-         console.log(booking.length);
-         if(booking){
+        const booking = await ORDER.find()
+        console.log(booking.length);
+        if (booking) {
             return res.status(200).json(booking.length)
-         }
+        }
     } catch (error) {
         console.error('Error fetching bookings:', error);
-    res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: 'Internal server error' });
     }
 
 }
-export { order, verify,bookedslot };
+const myorder = async (req, res) => {
+    console.log(req.params.id);
+    const id = req.params.id
+    console.log(id);
+    try {
+        let book = await CourtSchedule.find({ bookedBy: req.params.id })
+            .populate({ path: 'courtId', select: ['CourtName', 'Location'] })
+            .populate({path:'orderId',select:['createdOn']})
+
+        console.log(book);
+        res.status(200).json(book)
+    } catch (error) {
+        console.log(error); 
+        res.status(500).json('internal server error')
+
+    }
+
+
+}
+export { order, verify, bookedslot, myorder };
