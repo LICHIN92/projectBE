@@ -171,10 +171,14 @@ const changePassword = async (req, res) => {
             console.log('mobile is not match');
             return res.status(400).json( "Mobile is not registered with this account" )
         }
-        const changingPassword = await USER.findOneAndUpdate({email} , { password: New_Password }, { new: true })
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(New_Password, saltRounds);
+        const changingPassword = await USER.findOneAndUpdate({email} , { password: hashedPassword }, { new: true })
         console.log(changingPassword,'updated');
+        res.status(200).json('password Changed Successfully')
     } catch (error) {
         console.log(error);
+        res.status(500).json('internal server error')
     }
 }
 export { signin, signup, usercount, deleteAccount, getdata, updatesuser, changePassword };
