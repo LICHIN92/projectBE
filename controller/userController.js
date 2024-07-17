@@ -29,12 +29,12 @@ const signin = async (req, res) => {
         userData.password = undefined
         const token = jsonwebtoken.sign({ ...userData }, process.env.JWT_SECRET, option)
         console.log(token);
-        res.cookie('token', token, {
-            httpOnly: true,
-            sameSite: 'None',
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000
-        })
+        // res.cookie('token', token, {
+        //     httpOnly: true,
+        //     sameSite: 'None',
+        //     secure: true, 
+        //     maxAge: 24 * 60 * 60 * 1000
+        // })
         res.status(200).json({ data: "Signin successful", token });
 
     } catch (error) {

@@ -14,6 +14,7 @@ const app = express()
 
 const allowedOrigins = [
   'https://project-fe-gilt.vercel.app',
+  'https://turfhub-lichin-chandrans-projects.vercel.app/'
   'http://localhost:5173',
   'https://turfhub.netlify.app'
 ];
