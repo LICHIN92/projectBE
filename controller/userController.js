@@ -140,6 +140,11 @@ const updatesuser = async (req, res) => {
     console.log(req.body);
     const id = req.params.id
     const update = req.body
+    const password=req.body.password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log(hashedPassword);
+    update.password=hashedPassword
     try {
         const updates = await USER.findByIdAndUpdate(id, update, { new: true })
         if (!updates) {
@@ -173,6 +178,7 @@ const changePassword = async (req, res) => {
         }
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(New_Password, saltRounds);
+        console.log(hashedPassword);
         const changingPassword = await USER.findOneAndUpdate({email} , { password: hashedPassword }, { new: true })
         console.log(changingPassword,'updated');
         res.status(200).json('password Changed Successfully')
