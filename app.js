@@ -15,8 +15,7 @@ const app = express()
 const allowedOrigins = [
   'https://project-fe-gilt.vercel.app',
   'https://turfhub-mauve.vercel.app',
-  'http://localhost:5174',
-  'https://turfhub.netlify.app'
+  'http://localhost:5173'
 ];
 
 const corsOptions = {
