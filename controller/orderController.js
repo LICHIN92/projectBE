@@ -21,7 +21,7 @@ const order = async (req, res, next) => {
         const options = {
             amount: amount * 100, // amount in paise
             currency: "INR",
-            receipt: neworder._id.toString(), 
+            receipt: neworder._id.toString()
         };
 
         const order = await instance.orders.create(options);
