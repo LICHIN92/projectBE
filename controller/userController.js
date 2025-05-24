@@ -10,7 +10,7 @@ const signin = async (req, res) => {
     const { email, password } = req.body
     console.log(req.body);
     try {
-        const userData = await USER.find({ email })
+        const userData = await USER.findOne({ email })
         console.log(userData);
         if (!userData) {
             return res.status(400).json('invalid Email')
@@ -79,7 +79,7 @@ const signup = async (req, res) => {
 
     try {
 
-        const mailExist = await USER.find({ email: email });
+        const mailExist = await USER.findOne({ email: email });
         if (mailExist) {
             console.log(`mailExist ${mailExist}`);
             return res.status(400).json("Email already exists");
